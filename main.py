@@ -135,7 +135,7 @@ class Streamer:
 
                 perf = f"chafa dt: {end - start:.3f}s | skipped: {self.skipped_frames}/{self.frame_count} frames ({round(self.skipped_frames / self.frame_count * 100)}%)"
 
-                self.callback(out, perf)
+                self.callback(out, perf, self.frame_count)
 
                 # time.sleep(1 / 20)
 
@@ -195,10 +195,11 @@ class ChafaYTApp(App):
     def on_mount(self):
         self.log("App mounted")
 
-    def update_frame(self, frame_str, perf=None):
+    def update_frame(self, frame_str, perf=None, frame_count=0):
         text = Text.from_ansi(frame_str)
         self.call_from_thread(self.frame_widget.update, text)
-        self.progress.advance(1)
+
+        self.progress.update(frame_count)
 
         self.perf_widget.update(
             f"dt: {time.time() - self.last_updated:.3f}s | {perf} | {1 / (time.time() - self.last_updated):.3f} fps"
