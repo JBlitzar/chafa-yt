@@ -8,7 +8,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Tree, Static, Button
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
-from textual.widgets import Footer
+from textual.widgets import Footer, ProgressBar
 from rich.text import Text
 
 
@@ -27,6 +27,22 @@ class Streamer:
         self.thread = threading.Thread(target=self.stream)
         self.thread.daemon = True
         self.thread.start()
+
+    @staticmethod
+    def get_duration(url):
+        result = subprocess.run(
+            [
+                "yt-dlp",
+                "--get-duration",
+                url,
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        duration_str = result.stdout.decode("utf-8").strip()
+
+        m, s = map(int, duration_str.split(":"))
+        return (m * 60 + s) * 30
 
     def stream(self):
         ytdl_process = subprocess.Popen(
@@ -47,8 +63,8 @@ class Streamer:
                 "ffmpeg",
                 "-i",
                 "pipe:0",
-                "-vf",
-                "fps=30",
+                # "-vf",
+                # "fps=30",
                 "-f",
                 "image2pipe",
                 "-vcodec",
@@ -82,13 +98,18 @@ class Streamer:
                         "chafa",
                         "--format",
                         "symbols",
-                        "--symbols",
-                        "block",
-                        "--colors",
-                        "256",
+                        # "--symbols",
+                        # "block",
+                        # "-c",
+                        # "256",
+                        # "--symbols",
+                        # "0..fffff-block-border-stipple-dot-geometric",
+                        "--dither",
+                        "bayer",
                         "-s",
                         "80x24",
-                        "-",
+                        "-w",
+                        "1",
                     ],
                     input=complete_frame,
                     stdout=subprocess.PIPE,
@@ -105,6 +126,13 @@ class ChafaYTApp(App):
     Screen {
         background: $surface;
     }
+    ProgressBar {
+        color: white;
+    }
+    Bar > .bar--bar {
+        color: red;
+        background: red 30%;
+    }
 
 
     """
@@ -114,6 +142,11 @@ class ChafaYTApp(App):
         self.url = url
         self.streamer = Streamer(url, self.update_frame)
         self.frame_widget = Static("", id="frame")
+        self.perf_widget = Static("", id="perf")
+        self.last_updated = time.time()
+        self.progress = ProgressBar(
+            total=Streamer.get_duration(url), show_eta=False, show_percentage=True
+        )
 
     def on_mount(self):
         self.log("App mounted")
@@ -121,11 +154,20 @@ class ChafaYTApp(App):
     def update_frame(self, frame_str):
         text = Text.from_ansi(frame_str)
         self.call_from_thread(self.frame_widget.update, text)
+        self.progress.advance(1)
+
+        self.perf_widget.update(f"dt: {time.time() - self.last_updated:.3f}s")
+
+        self.last_updated = time.time()
 
     def compose(self) -> ComposeResult:
         with Vertical():
             yield Static(f"Streaming video from YouTube ID: {self.url}", id="header")
+
             yield self.frame_widget
+            yield self.progress
+            yield self.perf_widget
+
             yield Footer()
 
 
