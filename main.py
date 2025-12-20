@@ -10,6 +10,7 @@ from textual.containers import Horizontal, Vertical, Center
 from textual.binding import Binding
 from textual.widgets import Footer, ProgressBar
 from rich.text import Text
+import asyncio
 
 
 # file = "/tmp/frame.png"
@@ -232,6 +233,7 @@ class ChafaYTApp(App):
     #subtitles-container {
         width: 100%;
         align: center middle;
+        height: 3;
     }
 
     #subtitles {
@@ -249,15 +251,23 @@ class ChafaYTApp(App):
         self.streamer = Streamer(url, self.update_frame)
         self.frame_widget = Static(" " * 20 + "Loading..." + " " * 20, id="frame")
         self.perf_widget = Static("", id="perf")
-        self.subtitles_widget = Label("subtitles go here...", id="subtitles")
+        self.subtitles_widget = Label("Loading...", id="subtitles")
         self.last_updated = time.time()
         self.progress = ProgressBar(
             total=Streamer.get_duration(url), show_eta=False, show_percentage=True
         )
 
+    async def get_and_set_subtitles(self):
+        subtitles = Streamer.get_subtitles(self.url)
+        self.subtitles_data = subtitles
+        self.subtitles_widget.update("Subtitles loaded.")
+
     def on_mount(self):
         self.log("App mounted")
-        self.subtitles_data = Streamer.get_subtitles(self.url)
+        self.subtitles_data = []
+        asyncio.create_task(self.get_and_set_subtitles())
+
+        self.frame_widget.loading = True
 
     def get_current_subtitle(self, frame_count):
         current_time_ms = (frame_count / 30) * 1000
@@ -267,6 +277,7 @@ class ChafaYTApp(App):
         return ""
 
     def update_frame(self, frame_str, perf=None, frame_count=0):
+        self.frame_widget.loading = False
         text = Text.from_ansi(frame_str)
         self.call_from_thread(self.frame_widget.update, text)
 
@@ -277,6 +288,10 @@ class ChafaYTApp(App):
         )
 
         self.subtitles_widget.update(f"{self.get_current_subtitle(frame_count)}")
+        if self.get_current_subtitle(frame_count) == "":
+            self.subtitles_widget.visible = False
+        else:
+            self.subtitles_widget.visible = True
 
         self.last_updated = time.time()
 
@@ -292,7 +307,7 @@ class ChafaYTApp(App):
                 yield self.progress
                 yield self.perf_widget
 
-            yield Footer()
+            # yield Footer()
 
 
 if __name__ == "__main__":
