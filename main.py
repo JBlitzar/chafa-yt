@@ -38,7 +38,7 @@ def download_and_extract_frames():
             "-f",
             "image2pipe",
             "-vcodec",
-            "ppm",
+            "png",
             "pipe:1",
         ],
         stdin=ytdl_process.stdout,
@@ -61,11 +61,11 @@ def download_and_extract_frames():
             complete_frame = bytes(frame_data[:end_idx])
             frame_data = frame_data[end_idx:]
 
-            print("\033[H\033[2J", end="", flush=True)
+            print("\033[H", end="", flush=True)
 
             subprocess.run(["chafa", "-"], input=complete_frame)
 
-            time.sleep(1 / 20)
+            # time.sleep(1 / 20)
 
 
 download_and_extract_frames()
