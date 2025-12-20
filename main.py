@@ -49,7 +49,7 @@ class Streamer:
             [
                 "yt-dlp",
                 "-f",
-                "bestvideo[height<=240][fps<=30]",
+                "worstvideo",
                 "-o",
                 "-",
                 self.url,
@@ -92,7 +92,7 @@ class Streamer:
                 frame_data = frame_data[end_idx:]
 
                 # print("\033[H", end="", flush=True)
-
+                start = time.time()
                 chafa = subprocess.run(
                     [
                         "chafa",
@@ -104,8 +104,8 @@ class Streamer:
                         # "256",
                         # "--symbols",
                         # "0..fffff-block-border-stipple-dot-geometric",
-                        "--dither",
-                        "bayer",
+                        # "--dither",
+                        # "bayer",
                         "-s",
                         "80x24",
                         "-w",
@@ -116,7 +116,11 @@ class Streamer:
                 )
                 out = chafa.stdout.decode("utf-8")
 
-                self.callback(out)
+                end = time.time()
+
+                perf = f"chafa dt: {end - start:.3f}s"
+
+                self.callback(out, perf)
 
                 # time.sleep(1 / 20)
 
@@ -132,6 +136,9 @@ class ChafaYTApp(App):
         color: white;
         width: 100%;
         text-align: center;
+    }
+    ProgressBar > Bar {
+        width: 100%;
     }
     Bar > .bar--bar {
         color: red;
@@ -163,7 +170,7 @@ class ChafaYTApp(App):
         super().__init__(**kwargs)
         self.url = url
         self.streamer = Streamer(url, self.update_frame)
-        self.frame_widget = Static("Loading...", id="frame")
+        self.frame_widget = Static(" " * 20 + "Loading..." + " " * 20, id="frame")
         self.perf_widget = Static("", id="perf")
         self.last_updated = time.time()
         self.progress = ProgressBar(
@@ -173,12 +180,14 @@ class ChafaYTApp(App):
     def on_mount(self):
         self.log("App mounted")
 
-    def update_frame(self, frame_str):
+    def update_frame(self, frame_str, perf=None):
         text = Text.from_ansi(frame_str)
         self.call_from_thread(self.frame_widget.update, text)
         self.progress.advance(1)
 
-        self.perf_widget.update(f"dt: {time.time() - self.last_updated:.3f}s")
+        self.perf_widget.update(
+            f"dt: {time.time() - self.last_updated:.3f}s | {perf} | {1 / (time.time() - self.last_updated):.3f} fps"
+        )
 
         self.last_updated = time.time()
 
