@@ -5,7 +5,7 @@ import subprocess
 import threading
 import time
 from textual.app import App, ComposeResult
-from textual.widgets import Tree, Static, Button
+from textual.widgets import Tree, Static, Button, Label
 from textual.containers import Horizontal, Vertical
 from textual.binding import Binding
 from textual.widgets import Footer, ProgressBar
@@ -31,6 +31,57 @@ class Streamer:
         self.target_fps = 30
         self.skipped_frames = 0
         self.thread.start()
+
+    @staticmethod
+    def get_subtitles(url):
+        result = subprocess.run(
+            [
+                "yt-dlp",
+                "--write-subs",
+                "--write-auto-subs",
+                "--sub-langs",
+                "en",
+                "--sub-format",
+                "srt",
+                "--skip-download",
+                "-o",
+                "/tmp/subs",
+                url,
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        try:
+            with open("/tmp/subs.en.srt", "r") as f:
+                a = f.read()
+                parts = a.split("\n\n")
+
+                out = []
+                for part in parts:
+                    sections = part.split("\n")
+                    sections = [s for s in sections if s.strip() != ""]
+                    # sections[0] = index
+                    # sections[1] = timecode
+                    # sections[2] = text
+                    if len(sections) < 3:
+                        continue
+                    start = sections[1].split(" --> ")[0]
+                    h, m, s, ms = re.match(r"(\d+):(\d+):(\d+),(\d+)", start).groups()
+                    start_time = (int(h) * 3600 + int(m) * 60 + int(s)) * 1000 + int(ms)
+
+                    end = sections[1].split(" --> ")[1]
+                    h, m, s, ms = re.match(r"(\d+):(\d+):(\d+),(\d+)", end).groups()
+                    end_time = (int(h) * 3600 + int(m) * 60 + int(s)) * 1000 + int(ms)
+
+                    text = " ".join(sections[2:])
+
+                    out.append((start_time, end_time, text))
+                # print(out)
+                return out
+
+        except FileNotFoundError:
+            return ""
 
     @staticmethod
     def get_duration(url):
@@ -178,6 +229,11 @@ class ChafaYTApp(App):
         width: 100%;
     }
 
+    #subtitles {
+        text-align: center;
+        border: round white;
+    }
+
 
     """
 
@@ -187,6 +243,7 @@ class ChafaYTApp(App):
         self.streamer = Streamer(url, self.update_frame)
         self.frame_widget = Static(" " * 20 + "Loading..." + " " * 20, id="frame")
         self.perf_widget = Static("", id="perf")
+        self.subtitles_widget = Label("\nsubtitles\n", id="subtitles")
         self.last_updated = time.time()
         self.progress = ProgressBar(
             total=Streamer.get_duration(url), show_eta=False, show_percentage=True
@@ -194,6 +251,14 @@ class ChafaYTApp(App):
 
     def on_mount(self):
         self.log("App mounted")
+        self.subtitles_data = Streamer.get_subtitles(self.url)
+
+    def get_current_subtitle(self, frame_count):
+        current_time_ms = (frame_count / 30) * 1000
+        for start, end, text in self.subtitles_data:
+            if start <= current_time_ms <= end:
+                return text
+        return ""
 
     def update_frame(self, frame_str, perf=None, frame_count=0):
         text = Text.from_ansi(frame_str)
@@ -205,6 +270,8 @@ class ChafaYTApp(App):
             f"dt: {time.time() - self.last_updated:.3f}s | {perf} | {1 / (time.time() - self.last_updated):.3f} fps"
         )
 
+        self.subtitles_widget.update(f"{self.get_current_subtitle(frame_count)}")
+
         self.last_updated = time.time()
 
     def compose(self) -> ComposeResult:
@@ -214,6 +281,7 @@ class ChafaYTApp(App):
                     f"Streaming video from YouTube ID: {self.url}", id="header"
                 )
                 yield self.frame_widget
+                yield self.subtitles_widget
                 yield self.progress
                 yield self.perf_widget
 
