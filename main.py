@@ -125,13 +125,35 @@ class ChafaYTApp(App):
     CSS = """
     Screen {
         background: $surface;
+        align: center middle;
     }
+
     ProgressBar {
         color: white;
+        width: 100%;
+        text-align: center;
     }
     Bar > .bar--bar {
         color: red;
         background: red 30%;
+    }
+    #frame{
+        height: auto;
+        width: auto;
+        text-align: center;
+    }
+    #v1{
+        align: center middle;
+    }
+    #h1{
+        align: center middle;
+    }
+    #video-container {
+        width: auto;
+        align: center middle;
+    }
+    #header, #perf {
+        width: 100%;
     }
 
 
@@ -141,7 +163,7 @@ class ChafaYTApp(App):
         super().__init__(**kwargs)
         self.url = url
         self.streamer = Streamer(url, self.update_frame)
-        self.frame_widget = Static("", id="frame")
+        self.frame_widget = Static("Loading...", id="frame")
         self.perf_widget = Static("", id="perf")
         self.last_updated = time.time()
         self.progress = ProgressBar(
@@ -161,12 +183,14 @@ class ChafaYTApp(App):
         self.last_updated = time.time()
 
     def compose(self) -> ComposeResult:
-        with Vertical():
-            yield Static(f"Streaming video from YouTube ID: {self.url}", id="header")
-
-            yield self.frame_widget
-            yield self.progress
-            yield self.perf_widget
+        with Vertical(id="v1"):
+            with Vertical(id="video-container"):
+                yield Static(
+                    f"Streaming video from YouTube ID: {self.url}", id="header"
+                )
+                yield self.frame_widget
+                yield self.progress
+                yield self.perf_widget
 
             yield Footer()
 
