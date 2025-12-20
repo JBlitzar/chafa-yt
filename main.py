@@ -199,7 +199,7 @@ class ChafaYTApp(App):
         text = Text.from_ansi(frame_str)
         self.call_from_thread(self.frame_widget.update, text)
 
-        self.progress.update(frame_count)
+        self.progress.progress = frame_count
 
         self.perf_widget.update(
             f"dt: {time.time() - self.last_updated:.3f}s | {perf} | {1 / (time.time() - self.last_updated):.3f} fps"
