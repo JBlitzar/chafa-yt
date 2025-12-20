@@ -6,7 +6,7 @@ import threading
 import time
 from textual.app import App, ComposeResult
 from textual.widgets import Tree, Static, Button, Label
-from textual.containers import Horizontal, Vertical
+from textual.containers import Horizontal, Vertical, Center
 from textual.binding import Binding
 from textual.widgets import Footer, ProgressBar
 from rich.text import Text
@@ -229,9 +229,15 @@ class ChafaYTApp(App):
         width: 100%;
     }
 
+    #subtitles-container {
+        width: 100%;
+        align: center middle;
+    }
+
     #subtitles {
         text-align: center;
         border: round white;
+        width: auto;
     }
 
 
@@ -243,7 +249,7 @@ class ChafaYTApp(App):
         self.streamer = Streamer(url, self.update_frame)
         self.frame_widget = Static(" " * 20 + "Loading..." + " " * 20, id="frame")
         self.perf_widget = Static("", id="perf")
-        self.subtitles_widget = Label("\nsubtitles\n", id="subtitles")
+        self.subtitles_widget = Label("subtitles go here...", id="subtitles")
         self.last_updated = time.time()
         self.progress = ProgressBar(
             total=Streamer.get_duration(url), show_eta=False, show_percentage=True
@@ -281,7 +287,8 @@ class ChafaYTApp(App):
                     f"Streaming video from YouTube ID: {self.url}", id="header"
                 )
                 yield self.frame_widget
-                yield self.subtitles_widget
+                with Center(id="subtitles-container"):
+                    yield self.subtitles_widget
                 yield self.progress
                 yield self.perf_widget
 
