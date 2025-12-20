@@ -26,6 +26,10 @@ class Streamer:
         self.callback = callback
         self.thread = threading.Thread(target=self.stream)
         self.thread.daemon = True
+        self.start_time = None
+        self.frame_count = 0
+        self.target_fps = 30
+        self.skipped_frames = 0
         self.thread.start()
 
     @staticmethod
@@ -63,8 +67,6 @@ class Streamer:
                 "ffmpeg",
                 "-i",
                 "pipe:0",
-                # "-vf",
-                # "fps=30",
                 "-f",
                 "image2pipe",
                 "-vcodec",
@@ -79,8 +81,11 @@ class Streamer:
         EOF = b"IEND\xae\x42\x60\x82"
 
         frame_data = bytearray()
+        self.start_time = None
         while True:
             chunk = ffmpeg_process.stdout.read(4096)
+            if self.start_time is None:
+                self.start_time = time.time()
             if not chunk:
                 break
 
@@ -91,7 +96,15 @@ class Streamer:
                 complete_frame = bytes(frame_data[:end_idx])
                 frame_data = frame_data[end_idx:]
 
-                # print("\033[H", end="", flush=True)
+                self.frame_count += 1
+
+                elapsed = time.time() - self.start_time
+                expected_frame = int(elapsed * self.target_fps)
+
+                if self.frame_count < expected_frame - 2:
+                    self.skipped_frames += 1
+                    continue
+
                 start = time.time()
                 chafa = subprocess.run(
                     [
@@ -101,11 +114,13 @@ class Streamer:
                         # "--symbols",
                         # "block",
                         # "-c",
-                        # "256",
+                        # "240",
                         # "--symbols",
                         # "0..fffff-block-border-stipple-dot-geometric",
                         # "--dither",
                         # "bayer",
+                        # "--fill",
+                        # "braille",
                         "-s",
                         "80x24",
                         "-w",
@@ -118,7 +133,7 @@ class Streamer:
 
                 end = time.time()
 
-                perf = f"chafa dt: {end - start:.3f}s"
+                perf = f"chafa dt: {end - start:.3f}s | skipped: {self.skipped_frames}/{self.frame_count} frames ({round(self.skipped_frames / self.frame_count * 100)}%)"
 
                 self.callback(out, perf)
 
