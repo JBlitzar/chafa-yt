@@ -16,6 +16,10 @@ Advantages:
 
 ## Quickstart
 
+
+https://github.com/user-attachments/assets/824d5e60-3cc8-42c2-ac1d-2638da33850b
+
+
 > [!IMPORTANT]
 > Do not skip installing the dependencies! 'twill not work without them. Chafa especially is not something a whole lot of people have installed on their system.
 
