@@ -11,12 +11,12 @@ Play Youtube videos in the terminal with Chafa!
   - On mac, `brew install ffmpeg chafa; curl -LsSf https://astral.sh/uv/install.sh | sh`
 - Run it!!
 
-  ```bash
-    uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/refs/heads/main/main.py
-  ```
+```bash
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/refs/heads/main/main.py
+```
 
-  > [!TIP]
-  > Append a youtube URL of your choice to play a different video or append --help to view more information.
+> [!TIP]
+> Append a youtube URL of your choice to play a different video or append --help to view more information.
 
 ## Installation for development
 
