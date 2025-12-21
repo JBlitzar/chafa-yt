@@ -1,8 +1,18 @@
 # chafa-yt
 
-Play Youtube videos in the terminal with Chafa!
+A YouTube TUI! Featuring a sophisticated UI, real-time video playback, subtitles, and a progress indicator.
 
 <img src="readme/demo.png">
+
+Advantages:
+
+- No ads
+- Looks cool
+- In the terminal
+- Blazingly fast 30fps at the innovative 80x24 resolution
+- Full 24-bit color
+- Support open source
+- Is cool
 
 ## Quickstart
 
@@ -19,6 +29,16 @@ uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/refs/heads/main/main.
 
 > [!TIP]
 > Append a youtube URL of your choice to play a different video or append --help to view more information.
+
+## How this works
+
+> _Sometimes in life, the best solution is to use pre-existing libraries_ - Sun Tzu, the Art of Software Development
+
+Pipes `yt-dlp` to `ffmpeg` to `chafa` to `textual` to your eyeballs!
+
+Read all about it in `main.py`. TUI code is in `ChafaYTApp`, streaming code is in `Streamer`.
+
+Have a feature request? An implementation idea? Issues / PRs are open. If you like this project, please do leave a star, it would mean a lot to me.
 
 ## Installation for development
 
