@@ -373,7 +373,7 @@ def main(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
 
     required = ["ffmpeg", "chafa", "yt-dlp"]
     missing = [cmd for cmd in required if not shutil.which(cmd)]
-    if missing:
+    if missing != []:
         print(f"Error: Missing required dependencies: {', '.join(missing)}")
         print("Please install them using the package manager of your choice.")
         exit(1)
