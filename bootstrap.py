@@ -80,4 +80,10 @@ for m in still_missing:
     )
     exit(1)
 
-print("All dependencies installed! Rerun the bootstrap script to continue.")
+print("All dependencies installed! Now run:")
+print(
+    "uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/refs/heads/main/main.py"
+)
+print(
+    "Append a youtube URL of your choice to play a different video or append --help to view more information."
+)
