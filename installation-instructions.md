@@ -22,4 +22,6 @@ Previous feedback:
 
 It's less easy to make a fully packaged Github binary or single `pipx` command to run this, since it's a CLI tool _with non-python external dependencies_. I've tried to make these installation instructions as easy as possible: On mac under ideal conditions, it's just two commands. If you have ideas, please do let me know!
 
+Bundling chafa, ffmpeg, and yt-dlp in a pyinstaller build would mean having to manually create tons of unique builds with platform-specific binaries bundled for each. I wouldn't really be able to test this reliably since I have a finite amount of computers available to me, so it's better to just find the installation instructions. For mac, I put a brew command and the uv universal install command.
+
 thank you 😭
