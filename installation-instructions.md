@@ -20,6 +20,6 @@ Previous feedback:
 
 > _Hi! Cool project! But for a Python project, it needs to be packaged so others can easily run it. Please provide a compiled executable in a GitHub Release or publish it to PyPI/pipx, then resubmit._
 
-Is there a Github release? No. Is there a single `pipx` command? No. It's a python CLI tool with external dependencies (not just pip packages). This is the easiest installation method I could come up with. It's arguably less ergonomic to make a `pyinstaller` binary.
-
 It's less easy to make a fully packaged Github binary or single `pipx` command to run this, since it's a CLI tool _with non-python external dependencies_. I've tried to make these installation instructions as easy as possible: On mac under ideal conditions, it's just two commands. If you have ideas, please do let me know!
+
+thank you 😭
