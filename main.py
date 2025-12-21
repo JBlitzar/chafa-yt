@@ -11,7 +11,6 @@ from textual.binding import Binding
 from textual.widgets import Footer, ProgressBar
 from rich.text import Text
 import asyncio
-import fire
 
 
 # file = "/tmp/frame.png"
@@ -355,15 +354,6 @@ class ChafaYTApp(App):
             # yield Footer()
 
 
-def main(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
-    """Play a YouTube video in the terminal using yt-dlp, ffmpeg, chafa, and textual!
-
-    Args:
-        url: The URL of the YouTube video to play
-    """
-    app = ChafaYTApp(url)
-    app.run()
-
-
 if __name__ == "__main__":
-    fire.Fire(main)
+    app = ChafaYTApp("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    app.run()
