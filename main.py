@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "fire",
+#     "textual",
+# ]
+# ///
 import os
 import tempfile
 import re
@@ -12,6 +19,8 @@ from textual.widgets import Footer, ProgressBar
 from rich.text import Text
 import asyncio
 import fire
+import shutil
+import sys
 
 
 # file = "/tmp/frame.png"
@@ -361,6 +370,13 @@ def main(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
     Args:
         url: The URL of the YouTube video to play
     """
+
+    required = ["ffmpeg", "chafa", "yt-dlp"]
+    missing = [cmd for cmd in required if not shutil.which(cmd)]
+    if missing:
+        print(f"Error: Missing required dependencies: {', '.join(missing)}")
+        print("Please install them using the package manager of your choice.")
+        exit(1)
     app = ChafaYTApp(url)
     app.run()
 
