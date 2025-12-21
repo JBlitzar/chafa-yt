@@ -17,7 +17,7 @@ uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
 ```
 
 **Why not a single executable?**
-Because ffmpeg, chafa, and yt-dlp are system tools, not Python libraries. Your package manager already handles them better than any bundled executable could. This is intentional design—use the right tool for the job.
+Because ffmpeg, chafa, and yt-dlp are system tools, not Python libraries. Your package manager already handles them better than any bundled executable could. This is intentional design-use the right tool for the job.
 
 <details>
 <summary>Want automation anyway?</summary>
