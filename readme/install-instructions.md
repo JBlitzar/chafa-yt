@@ -1,8 +1,8 @@
 # Installation instructions
 
-_A fork in the road appears_
+_Two roads diverged in a yellow wood_
 
-1. I can read and am okay with installing a few dependencies (recommended)
+1. I can read and am okay with copy-pasting a few commands depending on my system (recommended)
 
    1. Go [here](real-installation-instructions.md)!
 
