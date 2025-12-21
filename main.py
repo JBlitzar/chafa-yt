@@ -34,6 +34,20 @@ class Streamer:
         self.thread.start()
 
     @staticmethod
+    def get_title(url):
+        result = subprocess.run(
+            [
+                "yt-dlp",
+                "--get-title",
+                url,
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        title = result.stdout.decode("utf-8").strip()
+        return title
+
+    @staticmethod
     def get_subtitles(url):
         result = subprocess.run(
             [
@@ -117,12 +131,15 @@ class Streamer:
         ffmpeg_process = subprocess.Popen(
             [
                 "ffmpeg",
+                "-re",
                 "-i",
                 "pipe:0",
                 "-f",
                 "image2pipe",
                 "-vcodec",
                 "png",
+                "-r",
+                "30",
                 "pipe:1",
             ],
             stdin=ytdl_process.stdout,
@@ -242,6 +259,11 @@ class ChafaYTApp(App):
         width: auto;
     }
 
+    #header{
+        border: tall white;
+        text-align: center;
+    }
+
 
     """
 
@@ -257,15 +279,26 @@ class ChafaYTApp(App):
             total=Streamer.get_duration(url), show_eta=False, show_percentage=True
         )
 
+        self.timestamp = Static("", id="timestamp")
+
+        self.title = ""
+
     async def get_and_set_subtitles(self):
         subtitles = Streamer.get_subtitles(self.url)
         self.subtitles_data = subtitles
         self.subtitles_widget.update("Subtitles loaded.")
 
+    async def get_and_set_title(self):
+        title = Streamer.get_title(self.url)
+        self.title = title
+        header = self.query_one("#header", Static)
+        header.update(f"{title}")
+
     def on_mount(self):
         self.log("App mounted")
         self.subtitles_data = []
         asyncio.create_task(self.get_and_set_subtitles())
+        asyncio.create_task(self.get_and_set_title())
 
         self.frame_widget.loading = True
 
@@ -275,6 +308,12 @@ class ChafaYTApp(App):
             if start <= current_time_ms <= end:
                 return text
         return ""
+
+    def _format_time(self, t):
+        m = str(int(t // 60)).zfill(2)
+        s = str(int(t % 60)).zfill(2)
+
+        return f"{m}:{s}"
 
     def update_frame(self, frame_str, perf=None, frame_count=0):
         self.frame_widget.loading = False
@@ -293,23 +332,28 @@ class ChafaYTApp(App):
         else:
             self.subtitles_widget.visible = True
 
+        self.timestamp.update(
+            f"{self._format_time(frame_count / 30)} / {self._format_time(self.progress.total / 30)} s"
+        )
         self.last_updated = time.time()
 
     def compose(self) -> ComposeResult:
         with Vertical(id="v1"):
             with Vertical(id="video-container"):
-                yield Static(
-                    f"Streaming video from YouTube ID: {self.url}", id="header"
-                )
+                yield Static(f"{self.title}", id="header")
+                yield Static("")
                 yield self.frame_widget
                 with Center(id="subtitles-container"):
                     yield self.subtitles_widget
+                yield Static("")
+                yield self.timestamp
                 yield self.progress
+
                 yield self.perf_widget
 
             # yield Footer()
 
 
 if __name__ == "__main__":
-    app = ChafaYTApp("dQw4w9WgXcQ")
+    app = ChafaYTApp("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     app.run()
