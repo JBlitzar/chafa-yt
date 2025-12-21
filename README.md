@@ -8,10 +8,11 @@ Advantages:
 
 - No ads
 - Looks cool
+- Real streaming, not just predownloading
 - In the terminal
 - Blazingly fast 30fps at the innovative 80x24 resolution
 - Full 24-bit color
-- Support open source
+- Open-source
 - Is cool
 
 ## Quickstart
