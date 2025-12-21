@@ -76,7 +76,7 @@ print("Verifying install...")
 still_missing = [cmd for cmd in required if not shutil.which(cmd)]
 for m in still_missing:
     print(
-        f"uhh you're still missing {m}, or at least it's not in your PATH. Please install it manually. See: {install_links.get(m, 'No link available (should never happen)')}. If you're absolutely sure it's installed, make sure it's in your PATH too"
+        f"uhh you're still missing {m}, or at least it's not in your PATH. Please install it manually. See: {install_links.get(m, 'No link available (should never happen)')}. If you're absolutely sure it's installed, make sure it's in your PATH too (do you need to reload the shell)"
     )
     exit(1)
 
