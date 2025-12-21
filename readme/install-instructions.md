@@ -1,5 +1,7 @@
 # Installation instructions
 
+https://github.com/user-attachments/assets/824d5e60-3cc8-42c2-ac1d-2638da33850b
+
 _Two roads diverged in a yellow wood_
 
 1. I can read and am okay with copy-pasting a few commands depending on my system (recommended)
