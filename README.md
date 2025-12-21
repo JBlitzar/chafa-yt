@@ -1,5 +1,7 @@
 # chafa-yt
 
+![](https://hackatime-badge.hackclub.com/U099JENAUGP/chafa-yt)
+
 A YouTube TUI! Featuring a sophisticated UI, real-time video playback, subtitles, and a progress indicator.
 
 <img src="readme/demo.png">
