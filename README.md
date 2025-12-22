@@ -6,7 +6,9 @@ A YouTube TUI! Featuring a sophisticated UI, real-time video playback, subtitles
 
 <img src="readme/demo.png" width="100%">
 
+<center>
 <img src="readme/demo.webp" width="50%">
+</center>
 
 Advantages:
 
