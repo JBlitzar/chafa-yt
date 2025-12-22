@@ -25,6 +25,27 @@ Advantages:
 
 [look here!](readme/install-instructions.md)
 
+## Usage
+
+> [!TIP]
+> Use a more modern terminal emulator like Ghostty for better colors (but it should work on the default terminal, too)
+
+```bash
+# Default
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
+
+
+# Custom video (use quotes!)
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py "https://youtube.com/watch?v=..."
+
+# See all options
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py --help
+# (Press 'q' to exit help)
+
+# Exit the player
+Press Ctrl+Q
+```
+
 ## How this works
 
 > _Sometimes in life, the best solution is to use pre-existing libraries_ - Sun Tzu, the Art of Software Development
