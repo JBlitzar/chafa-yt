@@ -6,9 +6,10 @@
 
 ## Instructions
 
-[To the shipwrights](https://hackclub.slack.com/archives/C099P9FQQ91/p1766436648606549?thread_ts=1766429518.982679&cid=C099P9FQQ91)
-
 This project uses standard multimedia tools that your package manager already knows how to install:
+
+> [!TIP]
+> You may also need to install `uv` if you haven't already: https://docs.astral.sh/uv/getting-started/installation/
 
 **Mac:**
 
@@ -40,3 +41,21 @@ curl -sSL https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/bootstrap.py 
 ```
 
 </details>
+
+## Usage
+
+```bash
+# Default
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
+
+
+# Custom video (use quotes!)
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py "https://youtube.com/watch?v=..."
+
+# See all options
+uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py --help
+# (Press 'q' to exit help)
+
+# Exit the player
+Press Ctrl+Q
+```

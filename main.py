@@ -365,10 +365,16 @@ class ChafaYTApp(App):
 
 
 def main(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
-    """Play a YouTube video in the terminal using yt-dlp, ffmpeg, chafa, and textual!
+    """Chafa-yt
+
+    Play a YouTube video in the terminal using yt-dlp, ffmpeg, chafa, and textual!
+
+    Press q to exit help.
 
     Args:
         url: The URL of the YouTube video to play
+
+
     """
 
     required = ["ffmpeg", "chafa", "yt-dlp"]
