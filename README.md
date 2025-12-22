@@ -34,7 +34,6 @@ Advantages:
 # Default
 uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
 
-
 # Custom video (use quotes!)
 uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py "https://youtube.com/watch?v=..."
 
@@ -48,7 +47,7 @@ Press Ctrl+Q
 
 ## How this works
 
-> _Sometimes in life, the best solution is to use pre-existing libraries_ - Sun Tzu, the Art of Software Development
+> _Sometimes in life, the best solution is to utilize pre-existing libraries_ - Sun Tzu, the Art of Software Development
 
 Pipes `yt-dlp` to `ffmpeg` to `chafa` to `textual` to your eyeballs!
 
