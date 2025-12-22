@@ -2,7 +2,7 @@
 
 ## Demo video
 
-<img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/1da403915c4342d8_demo.webp" />
+![](/readme/demo.webp)
 
 ## Instructions
 
