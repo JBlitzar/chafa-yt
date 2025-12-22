@@ -15,6 +15,7 @@ This project uses standard multimedia tools that your package manager already kn
 
 ```bash
 brew install ffmpeg chafa yt-dlp
+
 uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
 ```
 
@@ -22,6 +23,7 @@ uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
 
 ```bash
 sudo apt install ffmpeg chafa yt-dlp  # or pacman -S, or dnf install
+
 uv run https://raw.githubusercontent.com/JBlitzar/chafa-yt/main/main.py
 ```
 
