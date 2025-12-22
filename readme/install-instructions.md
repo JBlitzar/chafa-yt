@@ -6,6 +6,8 @@
 
 ## Instructions
 
+[To the shipwrights](https://hackclub.slack.com/archives/C099P9FQQ91/p1766436648606549?thread_ts=1766429518.982679&cid=C099P9FQQ91)
+
 This project uses standard multimedia tools that your package manager already knows how to install:
 
 **Mac:**
