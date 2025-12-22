@@ -4,16 +4,9 @@
 
 A YouTube TUI! Featuring a sophisticated UI, real-time video playback, subtitles, and a progress indicator.
 
-<table width="100%">
-    <tr>
-        <td width="50%">
-            <img src="readme/demo.png" width="100%">
-        </td>
-        <td width="50%">
-            <img src="readme/demo.webp" width="100%">
-        </td>
-    </tr>
-</table>
+<img src="readme/demo.png" width="100%">
+
+<img src="readme/demo.webp" width="50%">
 
 Advantages:
 
