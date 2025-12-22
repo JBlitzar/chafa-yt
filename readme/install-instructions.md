@@ -2,7 +2,7 @@
 
 ## Demo video
 
-https://github.com/user-attachments/assets/824d5e60-3cc8-42c2-ac1d-2638da33850b
+![](https://hc-cdn.hel1.your-objectstorage.com/s/v3/1da403915c4342d8_demo.webp)
 
 ## Instructions
 
