@@ -1,5 +1,11 @@
 ## Installation
 
+## Demo video
+
+https://github.com/user-attachments/assets/824d5e60-3cc8-42c2-ac1d-2638da33850b
+
+## Instructions
+
 This project uses standard multimedia tools that your package manager already knows how to install:
 
 **Mac:**
