@@ -135,13 +135,13 @@ class Streamer:
                 self.url,
             ],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
         )
 
         ffmpeg_process = subprocess.Popen(
             [
                 "ffmpeg",
-                "-re",
+                # "-re",
                 "-i",
                 "pipe:0",
                 "-f",
