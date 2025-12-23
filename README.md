@@ -17,7 +17,7 @@ Advantages:
 - Real streaming, not just predownloading
 - In the terminal
 - Blazingly fast 30fps at an innovative resolution of 80x24 
-- Full 24-bit color
+- Full 24-bit color (on supported terminals)
 - Open-source
 - Is cool
 
