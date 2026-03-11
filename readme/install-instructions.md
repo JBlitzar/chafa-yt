@@ -2,7 +2,7 @@
 
 ## Demo video
 
-![](/readme/demo.webp)
+![](https://github.com/JBlitzar/chafa-yt/blob/main/readme/demo.webp)
 
 ## Instructions
 
