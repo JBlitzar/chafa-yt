@@ -2,7 +2,7 @@
 
 ## Demo video
 
-![](https://github.com/JBlitzar/chafa-yt/blob/main/readme/demo.webp)
+![](https://user-cdn.hackclub-assets.com/019cdad2-dec4-7683-8606-addad6dd31d1/demo.webp)
 
 ## Instructions
 
