@@ -1,5 +1,11 @@
 ## Installation
 
+## To the shipwrights
+
+Don't reject this because it's a markdown, I've discussed this before with the team and they've determined that this is the best way forward for this project.
+
+https://hackclub.slack.com/archives/C099P9FQQ91/p1769214202506129
+
 ## Demo video
 
 ![](https://user-cdn.hackclub-assets.com/019cdad2-dec4-7683-8606-addad6dd31d1/demo.webp)
